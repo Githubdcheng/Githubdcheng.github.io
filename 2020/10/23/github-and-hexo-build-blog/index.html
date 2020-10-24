@@ -29,7 +29,7 @@
 <meta property="og:image" content="http://example.com/source/images/hexo/github_setting_add_key.jpg">
 <meta property="og:image" content="http://example.com/source/images/hexo/hexo_blog_tree.jpg">
 <meta property="article:published_time" content="2020-10-23T03:02:28.000Z">
-<meta property="article:modified_time" content="2020-10-24T02:25:47.496Z">
+<meta property="article:modified_time" content="2020-10-24T02:27:10.133Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Github">
 <meta property="article:tag" content="Hexo">
@@ -344,8 +344,7 @@
 <h2 id="Hexo-是什么？"><a href="#Hexo-是什么？" class="headerlink" title="Hexo 是什么？"></a>Hexo 是什么？</h2><ul>
 <li>官网: <a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/">hexo.io</a><br>Hexo 是一个快速、简洁且高效的静态博客框架，它基于 Node.js 运行，可以将我们撰写的 Markdown 文档解析渲染成静态的 HTML 网页。</li>
 </ul>
-<h2 id="Hexo-GitHub-文章发布原理"><a href="#Hexo-GitHub-文章发布原理" class="headerlink" title="Hexo + GitHub 文章发布原理"></a>Hexo + GitHub 文章发布原理</h2><p>在本地撰写 Markdown 格式文章后，通过 Hexo 解析文档，渲染生成具有主题样式的 HTML 静态网页，再推送到 GitHub 上完成博文的发布。</p>
-<p><img src="/source/images/hexo/hexo_g_d.jpg" alt="Hexo + GitHub Pages 发文流程"></p>
+<h2 id="Hexo-GitHub-文章发布原理"><a href="#Hexo-GitHub-文章发布原理" class="headerlink" title="Hexo + GitHub 文章发布原理"></a>Hexo + GitHub 文章发布原理</h2><p>在本地撰写 Markdown 格式文章后，通过 Hexo 解析文档，渲染生成具有主题样式的 HTML 静态网页，再推送到 GitHub 上完成博文的发布。<br>222<br><img src="/source/images/hexo/hexo_g_d.jpg" alt="Hexo + GitHub Pages 发文流程"></p>
 <h2 id="优点和不足"><a href="#优点和不足" class="headerlink" title="优点和不足"></a>优点和不足</h2><p><em>优点</em>: 完全免费；静态站点，轻量快速；可按需求自由定制改造；托管在 GitHub，安全省心；迁移方便……<br><em>不足</em>: 发文不便，依赖于本地环境；更适合个人博客使用；GitHub 在国内访问速度有点不快。</p>
 <h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><p>Hexo 基于 Node.js，搭建过程中还需要使用 npm（Node.js 已带） 和 git，因此先搭建本地操作环境，安装 Node.js 和 Git。</p>
 <ul>
@@ -362,7 +361,7 @@
 <p>登陆 GitHub ，进入 Settings 页面，选择左边栏的 SSH and GPG keys，点击 New SSH key。</p>
 <p>Title 随便取个名字，粘贴复制的 id_rsa.pub 内容到 Key 中，点击 Add SSH key 完成添加。</p>
 <p><img src="/source/images/hexo/github_setting_add_key.jpg" alt="GitHub setting 密钥配置"></p>
-<h2 id="验证连接："><a href="#验证连接：" class="headerlink" title="验证连接："></a>验证连接：</h2><p>打开 Git Bash，输入 ssh -T <a href="mailto:&#x67;&#105;&#x74;&#x40;&#103;&#105;&#x74;&#x68;&#x75;&#98;&#46;&#99;&#x6f;&#x6d;">&#x67;&#105;&#x74;&#x40;&#103;&#105;&#x74;&#x68;&#x75;&#98;&#46;&#99;&#x6f;&#x6d;</a> 出现 “Are you sure……”，输入 yes 回车确认。<br>显示 “Hi xxx! You’ve successfully……” 即连接成功。</p>
+<h2 id="验证连接："><a href="#验证连接：" class="headerlink" title="验证连接："></a>验证连接：</h2><p>打开 Git Bash，输入 ssh -T <a href="mailto:&#103;&#x69;&#x74;&#x40;&#x67;&#105;&#x74;&#104;&#117;&#x62;&#x2e;&#99;&#111;&#109;">&#103;&#x69;&#x74;&#x40;&#x67;&#105;&#x74;&#104;&#117;&#x62;&#x2e;&#99;&#111;&#109;</a> 出现 “Are you sure……”，输入 yes 回车确认。<br>显示 “Hi xxx! You’ve successfully……” 即连接成功。</p>
 <h1 id="创建-Github-Pages-仓库"><a href="#创建-Github-Pages-仓库" class="headerlink" title="创建 Github Pages 仓库"></a>创建 Github Pages 仓库</h1><p>GitHub 主页右上角加号 -&gt; New repository：</p>
 <p>Repository name 中输入 用户名.github.io<br>勾选 “Initialize this repository with a README”<br>Description 选填<br>填好后点击 Create repository 创建。</p>
 <p>创建后默认自动启用 HTTPS，博客地址为：https://用户名.github.io</p>
