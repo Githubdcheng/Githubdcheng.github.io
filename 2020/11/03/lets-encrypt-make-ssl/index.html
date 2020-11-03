@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Let&#39;s Encrypt 安装配置教程，免费的 SSL 证书 | Hexo</title>
+  <meta name="description" content="[toc] 摘要:简介Let’s Encrypt 是一个由非营利性组织 互联网安全研究小组（ISRG）提供的免费、自动化和开放的证书颁发机构（CA）。 简单的说，借助 Let’s Encrypt 颁发的证书可以为我们的网站免费启用 HTTPS(SSL&#x2F;TLS) 。 Let’s Encrypt免费证书的签发&#x2F;续签都是脚本自动化的，官方提供了几种证书的申请方式方法，点击此处 快速浏览。 官方推荐使用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Let&#39;s Encrypt 安装配置教程，免费的 SSL 证书">
+<meta property="og:url" content="http://example.com/2020/11/03/lets-encrypt-make-ssl/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="[toc] 摘要:简介Let’s Encrypt 是一个由非营利性组织 互联网安全研究小组（ISRG）提供的免费、自动化和开放的证书颁发机构（CA）。 简单的说，借助 Let’s Encrypt 颁发的证书可以为我们的网站免费启用 HTTPS(SSL&#x2F;TLS) 。 Let’s Encrypt免费证书的签发&#x2F;续签都是脚本自动化的，官方提供了几种证书的申请方式方法，点击此处 快速浏览。 官方推荐使用">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/source/images/lets_encrypt/lets_encrypt_config1.jpg">
+<meta property="og:image" content="http://example.com/source/images/lets_encrypt/lets_encrypt_config2.jpg">
+<meta property="article:published_time" content="2020-11-03T13:39:39.000Z">
+<meta property="article:modified_time" content="2020-11-03T14:14:10.785Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="https">
+<meta property="article:tag" content="nginx">
+<meta property="article:tag" content="ssl">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/source/images/lets_encrypt/lets_encrypt_config1.jpg">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://example.com/2020/11/03/lets-encrypt-make-ssl/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/Githubdcheng.github.io/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/Githubdcheng" target="_blank">
+          <img class="img-circle img-rotate" src="/Githubdcheng.github.io/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">挺难想的喃</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer &amp; Designer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> ChengDu, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/Githubdcheng.github.io/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/Githubdcheng.github.io/%E5%BD%92%E6%A1%A3">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/Githubdcheng.github.io/%E5%88%86%E7%B1%BB">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/Githubdcheng.github.io/%E6%A0%87%E7%AD%BE">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/Githubdcheng.github.io/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/Githubdcheng.github.io/%E4%B9%A6%E5%8D%95">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">Books</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/Githubdcheng.github.io/%E5%8F%8B%E9%93%BE">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">Links</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/Githubdcheng.github.io/%E5%85%B3%E4%BA%8E">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/Githubdcheng" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/Githubdcheng.github.io/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/Githubdcheng.github.io/tags/Github/" rel="tag">Github</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/Githubdcheng.github.io/tags/Hexo/" rel="tag">Hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/Githubdcheng.github.io/tags/https/" rel="tag">https</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/Githubdcheng.github.io/tags/nginx/" rel="tag">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/Githubdcheng.github.io/tags/ssl/" rel="tag">ssl</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/Githubdcheng.github.io/tags/Github/" style="font-size: 13px;">Github</a> <a href="/Githubdcheng.github.io/tags/Hexo/" style="font-size: 13px;">Hexo</a> <a href="/Githubdcheng.github.io/tags/https/" style="font-size: 13px;">https</a> <a href="/Githubdcheng.github.io/tags/nginx/" style="font-size: 13px;">nginx</a> <a href="/Githubdcheng.github.io/tags/ssl/" style="font-size: 13px;">ssl</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/Githubdcheng.github.io/archives/2020/11/">November 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/Githubdcheng.github.io/archives/2020/10/">October 2020</a><span class="archive-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/Githubdcheng.github.io/2020/11/03/lets-encrypt-make-ssl/" class="title">Let&#39;s Encrypt 安装配置教程，免费的 SSL 证书</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-11-03T13:39:39.000Z" itemprop="datePublished">2020-11-03</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/Githubdcheng.github.io/2020/10/23/github-and-hexo-build-blog/" class="title">GitHub+Hexo 搭建个人博客</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-10-23T03:02:28.000Z" itemprop="datePublished">2020-10-23</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/Githubdcheng.github.io/2020/10/23/hello-world/" class="title">Hello World</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-10-23T02:32:56.112Z" itemprop="datePublished">2020-10-23</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-lets-encrypt-make-ssl" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Let&#39;s Encrypt 安装配置教程，免费的 SSL 证书
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/Githubdcheng.github.io/2020/11/03/lets-encrypt-make-ssl/" class="article-date">
+	  <time datetime="2020-11-03T13:39:39.000Z" itemprop="datePublished">2020-11-03</time>
+	</a>
+</span>
+        
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/Githubdcheng.github.io/tags/https/" rel="tag">https</a>, <a class="article-tag-link-link" href="/Githubdcheng.github.io/tags/nginx/" rel="tag">nginx</a>, <a class="article-tag-link-link" href="/Githubdcheng.github.io/tags/ssl/" rel="tag">ssl</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/Githubdcheng.github.io/2020/11/03/lets-encrypt-make-ssl/#comments" class="article-comment-link">Comments</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p>[toc]</p>
+<h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要:"></a>摘要:</h1><h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p><a target="_blank" rel="noopener" href="https://letsencrypt.org/">Let’s Encrypt</a> 是一个由非营利性组织 互联网安全研究小组（ISRG）提供的免费、自动化和开放的证书颁发机构（CA）。</p>
+<p>简单的说，借助 Let’s Encrypt 颁发的证书可以为我们的网站免费启用 HTTPS(SSL/TLS) 。</p>
+<p>Let’s Encrypt免费证书的签发/续签都是脚本自动化的，官方提供了几种证书的申请方式方法，<a target="_blank" rel="noopener" href="https://letsencrypt.org/docs/client-options/">点击此处</a> 快速浏览。</p>
+<p>官方推荐使用 <a target="_blank" rel="noopener" href="https://certbot.eff.org/">Certbot</a> 客户端来签发证书，这种方式可参考文档自行尝试，不做评价。</p>
+<p>我这里直接使用第三方客户端 <a target="_blank" rel="noopener" href="https://github.com/acmesh-official/acme.sh">acme.sh</a> 申请，据了解这种方式可能是目前 Let’s Encrypt 免费证书客户端最简单、最智能的 shell 脚本，可以自动发布和续订 Let’s Encrypt 中的免费证书。</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p><code>git clone https://github.com/letsencrypt/letsencrypt</code></p>
+<h3 id="生成通配符证书"><a href="#生成通配符证书" class="headerlink" title="生成通配符证书"></a>生成通配符证书</h3><p>期间需要根据提示设置DNS TXT记录,用作你对判断你是否拥有域名使用权</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd letsencrypt</span><br><span class="line">.&#x2F;certbot-auto certonly  -d *.you.cn --manual --preferred-challenges dns --server https:&#x2F;&#x2F;acme-v02.api.letsencrypt.org&#x2F;directory</span><br></pre></td></tr></table></figure>
+<p>其中”<a target="_blank" rel="noopener" href="http://you.cn&quot;换成你的一级域名即可/">http://you.cn&quot;换成你的一级域名即可</a><br><img src="/source/images/lets_encrypt/lets_encrypt_config1.jpg" alt="letsencrypt config"></p>
+<p>接着可以看到下面界面结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Dependency Installed:</span><br><span class="line">  dwz.x86_64 0:0.11-3.el7             perl-srpm-macros.noarch 0:1-8.el7             tcl.x86_64 1:8.5.13-8.el7             tix.x86_64 1:8.4.3-12.el7             tk.x86_64 1:8.5.13-6.el7             tkinter.x86_64 0:2.7.5-69.el7_5            </span><br><span class="line"></span><br><span class="line">Complete!</span><br><span class="line">Creating virtual environment...</span><br><span class="line">Installing Python packages...</span><br><span class="line">Installation succeeded.</span><br><span class="line">Saving debug log to &#x2F;var&#x2F;log&#x2F;letsencrypt&#x2F;letsencrypt.log</span><br><span class="line">Plugins selected: Authenticator manual, Installer None</span><br><span class="line">Enter email address (used for urgent renewal and security notices) (Enter &#39;c&#39; to</span><br><span class="line">cancel): 123@163.com</span><br></pre></td></tr></table></figure>
+<p>接下来需要输入些指令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br><span class="line">Please read the Terms of Service at</span><br><span class="line">https:&#x2F;&#x2F;letsencrypt.org&#x2F;documents&#x2F;LE-SA-v1.2-November-15-2017.pdf. You must</span><br><span class="line">agree in order to register with the ACME server at</span><br><span class="line">https:&#x2F;&#x2F;acme-v02.api.letsencrypt.org&#x2F;directory</span><br><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br><span class="line">(A)gree&#x2F;(C)ancel: A</span><br><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br><span class="line">Would you be willing to share your email address with the Electronic Frontier</span><br><span class="line">Foundation, a founding partner of the Let&#39;s Encrypt project and the non-profit</span><br><span class="line">organization that develops Certbot? We&#39;d like to send you email about our work</span><br><span class="line">encrypting the web, EFF news, campaigns, and ways to support digital freedom.</span><br><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br><span class="line">(Y)es&#x2F;(N)o: N</span><br><span class="line">Obtaining a new certificate</span><br><span class="line">Performing the following challenges:</span><br><span class="line">dns-01 challenge for kuaichuangkeji.com</span><br><span class="line"></span><br><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br><span class="line">NOTE: The IP of this machine will be publicly logged as having requested this</span><br><span class="line">certificate. If you&#39;re running certbot in manual mode on a machine that is not</span><br><span class="line">your server, please ensure you&#39;re okay with that.</span><br><span class="line"></span><br><span class="line">Are you OK with your IP being logged?</span><br><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br><span class="line">(Y)es&#x2F;(N)o: Y</span><br></pre></td></tr></table></figure>
+
+<p>这里有几个需交互的提示</p>
+<ul>
+<li>是否同意 Let’s Encrypt 协议要求=&gt;需要同意</li>
+<li>是否分享你的邮箱</li>
+<li>询问是否对域名和机器（IP）进行绑定=&gt;需要同意</li>
+</ul>
+<h3 id="需要注意的地方："><a href="#需要注意的地方：" class="headerlink" title="需要注意的地方："></a>需要注意的地方：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br><span class="line">Please deploy a DNS TXT record under the name</span><br><span class="line">_acme-challenge.you.cn with the following value:</span><br><span class="line"></span><br><span class="line">RYtObhDvEcXewZckknNQkBKIkvwIlbb4PNRel74LNwU</span><br><span class="line"></span><br><span class="line">Before continuing, verify the record is deployed.</span><br><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br><span class="line">Press Enter to Continue</span><br><span class="line">Waiting for verification...</span><br><span class="line">Cleaning up challenges</span><br></pre></td></tr></table></figure>
+<p>要求配置 DNS TXT 记录，从而校验域名所有权，也就是判断证书申请者是否有域名的所有权。<br>上面输出要求给 http://_acme-challenge.you.cn 配置一条 TXT 记录，在没有确认 TXT 记录生效之前不要回车执行。<br>我用的是阿里云的域名服务器，控制台具体操作如下图所示：<br><img src="/source/images/lets_encrypt/lets_encrypt_config2.jpg" alt="config record txt"></p>
+<p>确认生效后，回车执行，输出如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">IMPORTANT NOTES:</span><br><span class="line"> - Congratulations! Your certificate and chain have been saved at:</span><br><span class="line">   &#x2F;etc&#x2F;letsencrypt&#x2F;live&#x2F;you.cn&#x2F;fullchain.pem</span><br><span class="line">   Your key file has been saved at:</span><br><span class="line">   &#x2F;etc&#x2F;letsencrypt&#x2F;live&#x2F;you.cn&#x2F;privkey.pem</span><br><span class="line">   Your cert will expire on 2019-02-27. To obtain a new or tweaked</span><br><span class="line">   version of this certificate in the future, simply run certbot-auto</span><br><span class="line">   again. To non-interactively renew *all* of your certificates, run</span><br><span class="line">   &quot;certbot-auto renew&quot;</span><br><span class="line"> - If you like Certbot, please consider supporting our work by:</span><br><span class="line"></span><br><span class="line">   Donating to ISRG &#x2F; Let&#39;s Encrypt:   https:&#x2F;&#x2F;letsencrypt.org&#x2F;donate</span><br><span class="line">   Donating to EFF:                    https:&#x2F;&#x2F;eff.org&#x2F;donate-le</span><br></pre></td></tr></table></figure>
+
+<p>看到这个界面内容的话，恭喜你，证书安装成功了。</p>
+<h1 id="证书续签"><a href="#证书续签" class="headerlink" title="证书续签"></a>证书续签</h1><p>注:证书在到期前30天才会续签成功,但为了确保证书在运行过程中不过期,官方建议每天自动执行续签两次;</p>
+<p>使用crontab自动续期</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">crontab -e &#x2F;&#x2F; 编辑定时任务</span><br><span class="line">0 *&#x2F;12 * * * certbot renew --quiet --renew-hook &quot;&#x2F;etc&#x2F;init.d&#x2F;nginx reload&quot;</span><br></pre></td></tr></table></figure>
+<p>需要注意”/etc/init.d/nginx reload”为nginx重启命令，需要根据自己服务器的重启命令重启即可；这里建议使用reload，不推荐使用restart，因为这样万一配错了，也不会影响服务器其他项目的运行</p>
+<p><em>证书保存的路径配置nginx需要用到的</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;etc&#x2F;letsencrypt&#x2F;live&#x2F;you.cn&#x2F;fullchain.pem</span><br><span class="line">&#x2F;etc&#x2F;letsencrypt&#x2F;live&#x2F;you.cn&#x2F;privkey.pem</span><br></pre></td></tr></table></figure>
+<h1 id="nginx-开启-https"><a href="#nginx-开启-https" class="headerlink" title="nginx 开启 https"></a>nginx 开启 https</h1><p>证书生成完成后可以到 /etc/letsencrypt/live/ 目录下查看对应域名的证书文件。编辑 nginx 配置文件监听 443 端口，启用 SSL，并配置 SSL 的公钥、私钥证书路径：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">   listen   443 ssl;</span><br><span class="line">   server_name  you.cn;</span><br><span class="line">   root &#x2F;home&#x2F;www&#x2F;you;</span><br><span class="line">   index  index.html index.htm index.php;</span><br><span class="line"></span><br><span class="line">    ssl on;</span><br><span class="line">    ssl_certificate &#x2F;etc&#x2F;letsencrypt&#x2F;live&#x2F;you.cn&#x2F;fullchain.pem;</span><br><span class="line">    ssl_certificate_key &#x2F;etc&#x2F;letsencrypt&#x2F;live&#x2F;you.cn&#x2F;privkey.pem;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>添加 HTTP 自动跳转到 HTTPS：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name you.cn;</span><br><span class="line">    location &#x2F; &#123;</span><br><span class="line">        rewrite ^(.*)$  https:&#x2F;&#x2F;$host$1 permanent;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><em>配置好nginx后，重启nginx</em></p>
+<p><em>证书安装成功后，该域名下的所有二级域名都可以使用噢</em></p>
+<h1 id="取消证书"><a href="#取消证书" class="headerlink" title="取消证书"></a>取消证书</h1><p>可以使用一下命令取消刚刚生成的密匙，也就是以上的反操作：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">certbot revoke --cert-path &#x2F;etc&#x2F;letsencrypt&#x2F;live&#x2F;you.cn&#x2F;cert.pem</span><br><span class="line">certbot delete --cert-name you.cn</span><br></pre></td></tr></table></figure>
+
+<h1 id="参考的网址"><a href="#参考的网址" class="headerlink" title="参考的网址"></a>参考的网址</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/e321cc362e5d">Let’s Encrypt教程</a></li>
+<li><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000017095044">10分钟生成一张永久免费的SSL证书</a></li>
+<li><a target="_blank" rel="noopener" href="https://wp.wt629.com/archives/338">申请Let’s Encrypt免费SSL证书教程</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yiichina.com/tutorial/1219">centos 下安装 Let’s Encrypt 永久免费 SSL 证书</a></li>
+</ul>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://example.com/2020/11/03/lets-encrypt-make-ssl/" title="Let&#39;s Encrypt 安装配置教程，免费的 SSL 证书" target="_blank" rel="external">http://example.com/2020/11/03/lets-encrypt-make-ssl/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/Githubdcheng" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/Githubdcheng.github.io/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/Githubdcheng" target="_blank"><span class="text-dark">挺难想的喃</span><small class="ml-1x">Web Developer &amp; Designer</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="/Githubdcheng.github.io/2020/10/23/github-and-hexo-build-blog/" title="GitHub+Hexo 搭建个人博客"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/Githubdcheng.github.io/images/donate/alipayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/Githubdcheng.github.io/images/donate/wechatpayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/Githubdcheng" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/Githubdcheng.github.io/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/Githubdcheng.github.io/js/plugin.min.js"></script>
+
+
+<script src="/Githubdcheng.github.io/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/Githubdcheng.github.io/',
+        CONTENT_URL: '/Githubdcheng.github.io/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/Githubdcheng.github.io/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>
