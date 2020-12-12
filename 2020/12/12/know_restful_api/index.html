@@ -17,20 +17,21 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>Hello World | Hexo</title>
-  <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+  <title>RESTful API 设计指南 | Hexo</title>
+  <meta name="description" content="摘要网络应用程序，分为前端和后端两个部分。当前的发展趋势，就是前端设备层出不穷（手机、平板、桌面电脑、其他专用设备……）。 因此，必须有一种统一的机制，方便不同的前端设备与后端进行通信。这导致API构架的流行，甚至出现”API First”的设计思想。RESTful API是目前比较成熟的一套互联网应用程序的API设计理论。 简介一、协议API与用户的通信协议，总是使用HTTPS协议。 二、域名应">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://example.com/2020/10/23/hello-world/index.html">
+<meta property="og:title" content="RESTful API 设计指南">
+<meta property="og:url" content="http://example.com/2020/12/12/know_restful_api/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="摘要网络应用程序，分为前端和后端两个部分。当前的发展趋势，就是前端设备层出不穷（手机、平板、桌面电脑、其他专用设备……）。 因此，必须有一种统一的机制，方便不同的前端设备与后端进行通信。这导致API构架的流行，甚至出现”API First”的设计思想。RESTful API是目前比较成熟的一套互联网应用程序的API设计理论。 简介一、协议API与用户的通信协议，总是使用HTTPS协议。 二、域名应">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-10-23T02:32:56.112Z">
-<meta property="article:modified_time" content="2020-10-23T02:32:56.112Z">
+<meta property="article:published_time" content="2020-12-12T03:42:42.000Z">
+<meta property="article:modified_time" content="2020-12-12T03:51:42.000Z">
 <meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Restful">
 <meta name="twitter:card" content="summary">
   <!-- Canonical links -->
-  <link rel="canonical" href="http://example.com/2020/10/23/hello-world/index.html">
+  <link rel="canonical" href="http://example.com/2020/12/12/know_restful_api/index.html">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -340,14 +341,14 @@
   
 <main class="main" role="main">
   <div class="content">
-  <article id="post-hello-world" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+  <article id="post-know_restful_api" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
     
     <div class="article-header">
       
         
   
     <h1 class="article-title" itemprop="name">
-      Hello World
+      RESTful API 设计指南
     </h1>
   
 
@@ -355,34 +356,62 @@
       <div class="article-meta">
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
-	<a href="/Githubdcheng.github.io/2020/10/23/hello-world/" class="article-date">
-	  <time datetime="2020-10-23T02:32:56.112Z" itemprop="datePublished">2020-10-23</time>
+	<a href="/Githubdcheng.github.io/2020/12/12/know_restful_api/" class="article-date">
+	  <time datetime="2020-12-12T03:42:42.000Z" itemprop="datePublished">2020-12-12</time>
 	</a>
 </span>
         
         
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/Githubdcheng.github.io/tags/Restful/" rel="tag">Restful</a>
+  </span>
+
 
         
 
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/Githubdcheng.github.io/2020/10/23/hello-world/#comments" class="article-comment-link">Comments</a></span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/Githubdcheng.github.io/2020/12/12/know_restful_api/#comments" class="article-comment-link">Comments</a></span>
         
       </div>
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+        <h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><p>网络应用程序，分为前端和后端两个部分。当前的发展趋势，就是前端设备层出不穷（手机、平板、桌面电脑、其他专用设备……）。</p>
+<p>因此，必须有一种统一的机制，方便不同的前端设备与后端进行通信。这导致API构架的流行，甚至出现”API First”的设计思想。RESTful API是目前比较成熟的一套互联网应用程序的API设计理论。</p>
+<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><h2 id="一、协议"><a href="#一、协议" class="headerlink" title="一、协议"></a>一、协议</h2><p>API与用户的通信协议，总是使用HTTPS协议。</p>
+<h2 id="二、域名"><a href="#二、域名" class="headerlink" title="二、域名"></a>二、域名</h2><p>应该尽量将API部署在专用域名之下。<br><code>https://api.example.com</code><br>如果确定API很简单，不会有进一步扩展，可以考虑放在主域名下。<br><code>https://example.org/api/</code></p>
+<h2 id="三、版本（Versioning）"><a href="#三、版本（Versioning）" class="headerlink" title="三、版本（Versioning）"></a>三、版本（Versioning）</h2><p>应该将API的版本号放入URL。<br><code>https://api.example.com/v1/</code></p>
+<h2 id="四、路径（Endpoint）"><a href="#四、路径（Endpoint）" class="headerlink" title="四、路径（Endpoint）"></a>四、路径（Endpoint）</h2><p>路径又称”终点”（endpoint），表示API的具体网址。</p>
+<p>在RESTful架构中，每个网址代表一种资源（resource），所以网址中不能有动词，只能有名词，而且所用的名词往往与数据库的表格名对应。一般来说，数据库中的表都是同种记录的”集合”（collection），所以API中的名词也应该使用复数。</p>
+<p>举例来说，有一个API提供动物园（zoo）的信息，还包括各种动物和雇员的信息，则它的路径应该设计成下面这样。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;api.example.com&#x2F;v1&#x2F;zoos</span><br><span class="line">https:&#x2F;&#x2F;api.example.com&#x2F;v1&#x2F;animals</span><br><span class="line">https:&#x2F;&#x2F;api.example.com&#x2F;v1&#x2F;employees</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<h2 id="五、HTTP动词"><a href="#五、HTTP动词" class="headerlink" title="五、HTTP动词"></a>五、HTTP动词</h2><p>对于资源的具体操作类型，由HTTP动词表示。</p>
+<p>常用的HTTP动词有下面五个（括号里是对应的SQL命令）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">GET（SELECT）：从服务器取出资源（一项或多项）。</span><br><span class="line">POST（CREATE）：在服务器新建一个资源。</span><br><span class="line">PUT（UPDATE）：在服务器更新资源（客户端提供改变后的完整资源）。</span><br><span class="line">PATCH（UPDATE）：在服务器更新资源（客户端提供改变的属性）。</span><br><span class="line">DELETE（DELETE）：从服务器删除资源。</span><br></pre></td></tr></table></figure>
+<p>还有两个不常用的HTTP动词。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">HEAD：获取资源的元数据。</span><br><span class="line">OPTIONS：获取信息，关于资源的哪些属性是客户端可以改变的。</span><br></pre></td></tr></table></figure>
+<p>下面是一些例子。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;zoos：列出所有动物园</span><br><span class="line">POST &#x2F;zoos：新建一个动物园</span><br><span class="line">GET &#x2F;zoos&#x2F;ID：获取某个指定动物园的信息</span><br><span class="line">PUT &#x2F;zoos&#x2F;ID：更新某个指定动物园的信息（提供该动物园的全部信息）</span><br><span class="line">PATCH &#x2F;zoos&#x2F;ID：更新某个指定动物园的信息（提供该动物园的部分信息）</span><br><span class="line">DELETE &#x2F;zoos&#x2F;ID：删除某个动物园</span><br><span class="line">GET &#x2F;zoos&#x2F;ID&#x2F;animals：列出某个指定动物园的所有动物</span><br><span class="line">DELETE &#x2F;zoos&#x2F;ID&#x2F;animals&#x2F;ID：删除某个指定动物园的指定动物</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<h2 id="六、过滤信息（Filtering）"><a href="#六、过滤信息（Filtering）" class="headerlink" title="六、过滤信息（Filtering）"></a>六、过滤信息（Filtering）</h2><p>如果记录数量很多，服务器不可能都将它们返回给用户。API应该提供参数，过滤返回结果。</p>
+<p>下面是一些常见的参数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">?limit&#x3D;10：指定返回记录的数量</span><br><span class="line">?offset&#x3D;10：指定返回记录的开始位置。</span><br><span class="line">?page&#x3D;2&amp;per_page&#x3D;100：指定第几页，以及每页的记录数。</span><br><span class="line">?sortby&#x3D;name&amp;order&#x3D;asc：指定返回结果按照哪个属性排序，以及排序顺序。</span><br><span class="line">?animal_type_id&#x3D;1：指定筛选条件</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<h2 id="七、状态码（Status-Codes）"><a href="#七、状态码（Status-Codes）" class="headerlink" title="七、状态码（Status Codes）"></a>七、状态码（Status Codes）</h2><p>服务器向用户返回的状态码和提示信息，常见的有以下一些（方括号中是该状态码对应的HTTP动词）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">200 OK - [GET]：服务器成功返回用户请求的数据，该操作是幂等的（Idempotent）。</span><br><span class="line">201 CREATED - [POST&#x2F;PUT&#x2F;PATCH]：用户新建或修改数据成功。</span><br><span class="line">202 Accepted - [*]：表示一个请求已经进入后台排队（异步任务）</span><br><span class="line">204 NO CONTENT - [DELETE]：用户删除数据成功。</span><br><span class="line">400 INVALID REQUEST - [POST&#x2F;PUT&#x2F;PATCH]：用户发出的请求有错误，服务器没有进行新建或修改数据的操作，该操作是幂等的。</span><br><span class="line">401 Unauthorized - [*]：表示用户没有权限（令牌、用户名、密码错误）。</span><br><span class="line">403 Forbidden - [*] 表示用户得到授权（与401错误相对），但是访问是被禁止的。</span><br><span class="line">404 NOT FOUND - [*]：用户发出的请求针对的是不存在的记录，服务器没有进行操作，该操作是幂等的。</span><br><span class="line">406 Not Acceptable - [GET]：用户请求的格式不可得（比如用户请求JSON格式，但是只有XML格式）。</span><br><span class="line">410 Gone -[GET]：用户请求的资源被永久删除，且不会再得到的。</span><br><span class="line">422 Unprocesable entity - [POST&#x2F;PUT&#x2F;PATCH] 当创建一个对象时，发生一个验证错误。</span><br><span class="line">500 INTERNAL SERVER ERROR - [*]：服务器发生错误，用户将无法判断发出的请求是否成功。</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<h2 id="八、错误处理（Error-handling）"><a href="#八、错误处理（Error-handling）" class="headerlink" title="八、错误处理（Error handling）"></a>八、错误处理（Error handling）</h2><p>如果状态码是4xx，就应该向用户返回出错信息。一般来说，返回的信息中将error作为键名，出错信息作为键值即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    error: &quot;Invalid API key&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="九、返回结果"><a href="#九、返回结果" class="headerlink" title="九、返回结果"></a>九、返回结果</h2><p>针对不同操作，服务器向用户返回的结果应该符合以下规范。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;collection：返回资源对象的列表（数组）</span><br><span class="line">GET &#x2F;collection&#x2F;resource：返回单个资源对象</span><br><span class="line">POST &#x2F;collection：返回新生成的资源对象</span><br><span class="line">PUT &#x2F;collection&#x2F;resource：返回完整的资源对象</span><br><span class="line">PATCH &#x2F;collection&#x2F;resource：返回完整的资源对象</span><br><span class="line">DELETE &#x2F;collection&#x2F;resource：返回一个空文档</span><br></pre></td></tr></table></figure>
+
+<h2 id="十、Hypermedia-API"><a href="#十、Hypermedia-API" class="headerlink" title="十、Hypermedia API"></a>十、Hypermedia API</h2><p>RESTful API最好做到Hypermedia，即返回结果中提供链接，连向其他API方法，使得用户不查文档，也知道下一步应该做什么。</p>
+<p>比如，当用户向api.example.com的根目录发出请求，会得到这样一个文档。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;link&quot;: &#123;</span><br><span class="line">  &quot;rel&quot;:   &quot;collection https:&#x2F;&#x2F;www.example.com&#x2F;zoos&quot;,</span><br><span class="line">  &quot;href&quot;:  &quot;https:&#x2F;&#x2F;api.example.com&#x2F;zoos&quot;,</span><br><span class="line">  &quot;title&quot;: &quot;List of zoos&quot;,</span><br><span class="line">  &quot;type&quot;:  &quot;application&#x2F;vnd.yourformat+json&quot;</span><br><span class="line">&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p>上面代码表示，文档中有一个link属性，用户读取这个属性就知道下一步该调用什么API了。rel表示这个API与当前网址的关系（collection关系，并给出该collection的网址），href表示API的路径，title表示API的标题，type表示返回类型。</p>
+<p>本文转载自： <a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2014/05/restful_api.html">http://www.ruanyifeng.com/blog/2014/05/restful_api.html</a></p>
 
       
     </div>
@@ -392,7 +421,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="http://example.com/2020/10/23/hello-world/" title="Hello World" target="_blank" rel="external">http://example.com/2020/10/23/hello-world/</a>
+      <a href="http://example.com/2020/12/12/know_restful_api/" title="RESTful API 设计指南" target="_blank" rel="external">http://example.com/2020/12/12/know_restful_api/</a>
     </li>
     
     <li class="post-copyright-license">
@@ -438,10 +467,10 @@
   
   <ul class="pager pull-left">
     
-    <li class="prev">
-      <a href="/Githubdcheng.github.io/2020/10/23/github-and-hexo-build-blog/" title="GitHub+Hexo 搭建个人博客"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
-    </li>
     
+    <li class="next">
+      <a href="/Githubdcheng.github.io/2020/12/12/know_restful/" title="理解RESTful架构"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
     
     
   </ul>

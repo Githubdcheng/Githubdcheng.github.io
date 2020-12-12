@@ -17,20 +17,21 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>Hello World | Hexo</title>
-  <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+  <title>了解Django Rest Framework | Hexo</title>
+  <meta name="description" content="摘要:Rest Framework是一个能快速为我们提供API接口，方便我们编程的框架。API是后端编程人员写的，为了让前端拿数据的一个接口，通常就是以url的形式存在。 每个项目总有第一个人做基础构架，这个时候就不是仅仅实现一个API就OK了，需要考虑更多的事情，包括  统一的异常处理 API权限 统一的参数校验 缓存如何可以做的更简单统一 认证 统一的查询过滤 代码分层  了解Rest Fra">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://example.com/2020/10/23/hello-world/index.html">
+<meta property="og:title" content="了解Django Rest Framework">
+<meta property="og:url" content="http://example.com/2020/11/12/RestFramework/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="摘要:Rest Framework是一个能快速为我们提供API接口，方便我们编程的框架。API是后端编程人员写的，为了让前端拿数据的一个接口，通常就是以url的形式存在。 每个项目总有第一个人做基础构架，这个时候就不是仅仅实现一个API就OK了，需要考虑更多的事情，包括  统一的异常处理 API权限 统一的参数校验 缓存如何可以做的更简单统一 认证 统一的查询过滤 代码分层  了解Rest Fra">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-10-23T02:32:56.112Z">
-<meta property="article:modified_time" content="2020-10-23T02:32:56.112Z">
+<meta property="article:published_time" content="2020-11-12T05:59:48.000Z">
+<meta property="article:modified_time" content="2020-11-12T09:59:03.031Z">
 <meta property="article:author" content="John Doe">
+<meta property="article:tag" content="restful">
 <meta name="twitter:card" content="summary">
   <!-- Canonical links -->
-  <link rel="canonical" href="http://example.com/2020/10/23/hello-world/index.html">
+  <link rel="canonical" href="http://example.com/2020/11/12/RestFramework/index.html">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -340,14 +341,14 @@
   
 <main class="main" role="main">
   <div class="content">
-  <article id="post-hello-world" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+  <article id="post-RestFramework" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
     
     <div class="article-header">
       
         
   
     <h1 class="article-title" itemprop="name">
-      Hello World
+      了解Django Rest Framework
     </h1>
   
 
@@ -355,34 +356,62 @@
       <div class="article-meta">
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
-	<a href="/Githubdcheng.github.io/2020/10/23/hello-world/" class="article-date">
-	  <time datetime="2020-10-23T02:32:56.112Z" itemprop="datePublished">2020-10-23</time>
+	<a href="/Githubdcheng.github.io/2020/11/12/RestFramework/" class="article-date">
+	  <time datetime="2020-11-12T05:59:48.000Z" itemprop="datePublished">2020-11-12</time>
 	</a>
 </span>
         
         
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/Githubdcheng.github.io/tags/restful/" rel="tag">restful</a>
+  </span>
+
 
         
 
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/Githubdcheng.github.io/2020/10/23/hello-world/#comments" class="article-comment-link">Comments</a></span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/Githubdcheng.github.io/2020/11/12/RestFramework/#comments" class="article-comment-link">Comments</a></span>
         
       </div>
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+        <h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要:"></a>摘要:</h1><p>Rest Framework是一个能快速为我们提供API接口，方便我们编程的框架。API是后端编程人员写的，为了让前端拿数据的一个接口，通常就是以url的形式存在。</p>
+<p>每个项目总有第一个人做基础构架，这个时候就不是仅仅实现一个API就OK了，需要考虑更多的事情，包括</p>
+<ul>
+<li>统一的异常处理</li>
+<li>API权限</li>
+<li>统一的参数校验</li>
+<li>缓存如何可以做的更简单统一</li>
+<li>认证</li>
+<li>统一的查询过滤</li>
+<li>代码分层</li>
+</ul>
+<p>了解Rest Framework之前我们首先要知道什么是REST：</p>
+<ul>
+<li>表现层状态转化<br><a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2011/09/restful.html">理解RESTful架构</a></li>
+</ul>
+<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>Django Rest Framework 是一个强大且灵活的工具包，用以构建Web API<br>序列化和反序列化可以复用<br>增:效验请求数据&gt;执行反序列化过程&gt;保存数据库&gt;将保存的对象序列化并返回<br>删:判断要删除的数据是否存在.&gt;执行数据库删除<br>改:判断要修改的数据是否存在&gt;效验请求的参数&gt;执行反序列化过程&gt;保存数据库&gt;将保存的对象序列化并返回<br>查:查询数据库&gt;将数据序列化并返回<br>特点:<br>1.提供了定义序列化器Serializer的方法,可以快速根据Django ORM 或者其他库自动序列化/反序列化<br>2.提供了丰富的类视图\MIXIN扩展类,简化视图的编写<br>3.丰富的定制层级:函数视图\类视图\试图结合到自动生成API,满足各种需要<br>4.多种身份认证和权限认证方式的支持<br>5.内置了限流系统<br>6.直观的API web界面<br>7.可扩展性 , 插件丰富</p>
+<h1 id="Django-rest-framework-简单使用"><a href="#Django-rest-framework-简单使用" class="headerlink" title="Django-rest-framework 简单使用"></a>Django-rest-framework 简单使用</h1><h3 id="创建环境"><a href="#创建环境" class="headerlink" title="创建环境"></a>创建环境</h3><p>使用Anaconda工具确保我们的包配置与我们正在开展的任何其他项目保持良好的隔离。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">conda create --name rest python&#x3D;3.6.5</span><br><span class="line"></span><br><span class="line">conda activate rest # 激活环境</span><br><span class="line">conda deactivate # 退出环境</span><br></pre></td></tr></table></figure>
+<p>安装所需的包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pip install django</span><br><span class="line">pip install djangorestframework</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="Quickstart"><a href="#Quickstart" class="headerlink" title="Quickstart"></a>Quickstart</h3><p>创建项目并配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">django-admin startproject rest_api_back</span><br><span class="line"></span><br><span class="line">cd rest_api_back # 进入项目目录</span><br><span class="line">python manage.py startapp user # 创建app</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>修改settings.py 配置,将新建 user 和 rest_framework 添加到INSTALLED_APPS。<br><code>vim rest_api_back/settings.py</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">INSTALLED_APPS &#x3D; (</span><br><span class="line">    ...</span><br><span class="line">    &#39;rest_framework&#39;,</span><br><span class="line">    &#39;user&#39;,</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>如果您打算使用可浏览的API，您可能还需要添加REST框架的登录和注销视图。将以下内容添加到您的根urls.py文件中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">urlpatterns &#x3D; [</span><br><span class="line">    ...</span><br><span class="line">    url(r&#39;^api-auth&#x2F;&#39;, include(&#39;rest_framework.urls&#39;, namespace&#x3D;&#39;rest_framework&#39;))</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>创建一个model</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">from django.db import models</span><br><span class="line"></span><br><span class="line"># Create your models here.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class User(models.Model):</span><br><span class="line">	username &#x3D; models.CharField(max_length&#x3D;200, db_index&#x3D;True, verbose_name&#x3D;&quot;用户名称&quot;)</span><br><span class="line">	password &#x3D; models.CharField(max_length&#x3D;200, verbose_name&#x3D;&quot;用户密码&quot;)</span><br><span class="line">    tell &#x3D; models.CharField(max_length&#x3D;20, verbose_name&#x3D;&quot;手机号码&quot;)</span><br><span class="line">    avatar &#x3D; models.CharField(null&#x3D;True, blank&#x3D;True, max_length&#x3D;1024, verbose_name&#x3D;&quot;头像&quot;)</span><br><span class="line">   	create_time &#x3D; models.DateTimeField(auto_now_add&#x3D;True, verbose_name&#x3D;&quot;创建时间&quot;)</span><br><span class="line">    update_time &#x3D; models.DateTimeField(null&#x3D;True, blank&#x3D;True, verbose_name&#x3D;&quot;修改时间&quot;)</span><br><span class="line">    delete_time &#x3D; models.DateTimeField(null&#x3D;True, blank&#x3D;True, verbose_name&#x3D;&quot;删除时间&quot;)</span><br><span class="line"></span><br><span class="line">   	class Meta:</span><br><span class="line">        db_table&#x3D; &#39;user&#39;</span><br></pre></td></tr></table></figure>
+<p>我们还需要为我们的代码段模型创建初始迁移（initial migration），并首次同步数据库（migrate）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">python manage.py makemigrations user</span><br><span class="line">python manage.py migrate</span><br><span class="line"></span><br><span class="line">创建一个序列化类</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<pre><code>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+</code></pre>
 
       
     </div>
@@ -392,7 +421,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="http://example.com/2020/10/23/hello-world/" title="Hello World" target="_blank" rel="external">http://example.com/2020/10/23/hello-world/</a>
+      <a href="http://example.com/2020/11/12/RestFramework/" title="了解Django Rest Framework" target="_blank" rel="external">http://example.com/2020/11/12/RestFramework/</a>
     </li>
     
     <li class="post-copyright-license">
@@ -439,9 +468,13 @@
   <ul class="pager pull-left">
     
     <li class="prev">
-      <a href="/Githubdcheng.github.io/2020/10/23/github-and-hexo-build-blog/" title="GitHub+Hexo 搭建个人博客"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+      <a href="/Githubdcheng.github.io/2020/12/12/know_restful/" title="理解RESTful架构"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
     </li>
     
+    
+    <li class="next">
+      <a href="/Githubdcheng.github.io/2020/11/04/md_use_command/" title="Markdown文档基本操作说明"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
     
     
   </ul>
