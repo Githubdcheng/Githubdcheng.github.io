@@ -17,16 +17,21 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>Archive: 2020/10 | Hexo</title>
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/archives/2020/10/index.html">
+  <title>理解Python迭代器&amp;生成器&amp;装饰器 | Hexo</title>
+  <meta name="description" content="摘要在Python中，迭代器是遵循迭代协议的对象。使用iter()从任何序列对象中得到迭代器（如list, tuple, dictionary, set等）。另一种形式的输入迭代器是generator（生成器）。 简介一、迭代器可迭代对象（Iterator）迭代器协议： 某对象必须提供一个next()方法，执行方法要么返回迭代中的下一项，要么引起一个Stopiteration异常，以终止迭代（只能">
+<meta property="og:type" content="article">
+<meta property="og:title" content="理解Python迭代器&amp;生成器&amp;装饰器">
+<meta property="og:url" content="http://example.com/2020/12/12/python_know_itertor/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="摘要在Python中，迭代器是遵循迭代协议的对象。使用iter()从任何序列对象中得到迭代器（如list, tuple, dictionary, set等）。另一种形式的输入迭代器是generator（生成器）。 简介一、迭代器可迭代对象（Iterator）迭代器协议： 某对象必须提供一个next()方法，执行方法要么返回迭代中的下一项，要么引起一个Stopiteration异常，以终止迭代（只能">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-12-12T03:42:42.000Z">
+<meta property="article:modified_time" content="2020-12-12T06:45:06.310Z">
 <meta property="article:author" content="John Doe">
+<meta property="article:tag" content="python">
 <meta name="twitter:card" content="summary">
   <!-- Canonical links -->
-  <link rel="canonical" href="http://example.com/archives/2020/10/index.html">
+  <link rel="canonical" href="http://example.com/2020/12/12/python_know_itertor/index.html">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -335,58 +340,221 @@
   
   
 <main class="main" role="main">
-  	<article class="content article article-archives article-type-list" itemscope="">
-	    <header class="article-header">
-	      <h1 itemprop="title">Archive: 2020/10</h1>
-	      <p class="text-muted">Total 2 articles</p>
-	    </header>
-	    <div class="article-body">
-	      
+  <div class="content">
+  <article id="post-python_know_itertor" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
   
+    <h1 class="article-title" itemprop="name">
+      理解Python迭代器&amp;生成器&amp;装饰器
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/Githubdcheng.github.io/2020/12/12/python_know_itertor/" class="article-date">
+	  <time datetime="2020-12-12T03:42:42.000Z" itemprop="datePublished">2020-12-12</time>
+	</a>
+</span>
+        
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/Githubdcheng.github.io/tags/python/" rel="tag">python</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/Githubdcheng.github.io/2020/12/12/python_know_itertor/#comments" class="article-comment-link">Comments</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><p>在Python中，迭代器是遵循迭代协议的对象。使用iter()从任何序列对象中得到迭代器（如list, tuple, dictionary, set等）。另一种形式的输入迭代器是generator（生成器）。</p>
+<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><h2 id="一、迭代器"><a href="#一、迭代器" class="headerlink" title="一、迭代器"></a>一、迭代器</h2><h3 id="可迭代对象（Iterator）"><a href="#可迭代对象（Iterator）" class="headerlink" title="可迭代对象（Iterator）"></a>可迭代对象（Iterator）</h3><p>迭代器协议： 某对象必须提供一个<strong>next</strong>()方法，执行方法要么返回迭代中的下一项，要么引起一个Stopiteration异常，以终止迭代（只能往后走，不能往前退）</p>
+<p>协议是一种规范，可迭代对象实现了迭代器协议，python的内部工具（如for循环、sum、min、max函数），使用迭代器协议访问对象</p>
+<p>可迭代对象（Iterator）：实现了迭代器协议的对象（如何实现：对象内部定义了一个<strong>iter</strong>()方法），也就是可迭代对象内部要包含<strong>iter</strong>() 函数</p>
+<p>迭代器（Iterator）：内部包含了<strong>iter()</strong>() ，同时也包含<strong>next</strong>()</p>
+<h3 id="for循环的工作机制"><a href="#for循环的工作机制" class="headerlink" title="for循环的工作机制"></a>for循环的工作机制</h3><p>先通过<strong>iter</strong>()方法将可迭代对象转换为迭代器，再调用迭代器中的<strong>next</strong>()方法遍历，最后再抓取结束时的异常</p>
+<h3 id="可迭代对象与迭代器"><a href="#可迭代对象与迭代器" class="headerlink" title="可迭代对象与迭代器"></a>可迭代对象与迭代器</h3><p><em>1) 可迭代对象与迭代器之间的关系</em></p>
+<ul>
+<li>可迭代对象包含迭代器</li>
+<li>如果一个对象拥有__iter__方法，其就是可迭代对象（可以被for循环迭代）；如果一个对象拥有next方法，其是迭代器</li>
+<li>定义可迭代对象，必须事先__iter__方法；定义迭代器，必须实现__iter__和__next__方法。</li>
+</ul>
+<p><em>2) 迭代器的特点</em></p>
+<ul>
+<li>节省内存</li>
+<li>惰性机制</li>
+<li>不能反复，只能向下执行</li>
+</ul>
+<p><em>3) isinstance()判断对象是否为Iterable对象</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">from collections import Iterable</span><br><span class="line">print(isinstance([], Iterable))</span><br></pre></td></tr></table></figure>
+
+<h2 id="二、生成器"><a href="#二、生成器" class="headerlink" title="二、生成器"></a>二、生成器</h2><h3 id="生成器概述（generator）"><a href="#生成器概述（generator）" class="headerlink" title="生成器概述（generator）"></a>生成器概述（generator）</h3><p>生成器（generator）就是可迭代对象（它在内部实现了迭代器协议）</p>
+<p>生成器在python中的两种表达形式：</p>
+<ul>
+<li>生成器表达式</li>
+<li>生成器函数</li>
+</ul>
+<p>触发生成器的方式：</p>
+<ul>
+<li>通过调用<strong>next</strong>()方法，相当于send(None)</li>
+<li>通过调用send()方法</li>
+</ul>
+<h3 id="生成器函数"><a href="#生成器函数" class="headerlink" title="生成器函数"></a>生成器函数</h3><ul>
+<li>只要函数中包含yield关键字，则此函数就是一个生成器函数</li>
+<li>每调用一次 <strong>next</strong>()，yield后面的值就会被返回一次，且保留此次的状态，下一次调用从此位置开始</li>
+</ul>
+<h3 id="yield-from"><a href="#yield-from" class="headerlink" title="yield from"></a>yield from</h3><ul>
+<li>yield from可以直接把迭代对象中的每一个数据作为生成器的结果进行返回</li>
+<li>因为yield from是将列表中的每一个元素返回，所以写两个yield from并不会产生交替的效果</li>
+</ul>
+<h3 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h3><p>在一个外函数中定义了一个内函数，内函数里运用了外函数的临时变量，并且外函数的返回值是内函数的引用，这样就构成了一个闭包。简单来说，闭包就是内层函数，对外层函数变量的引用。</p>
+<p>一般情况下，如果一个函数执行结束，则这个函数的内部的变量以及局部命名空间中的内容都会被释放掉。但是在闭包中，如果外函数在结束的时候发现有自己的临时变量将来会在内部函数中用到，就把这个临时变量绑定给了内部函数，然后自己再结束。也就说，使用闭包，可以保证外部函数中的变量在内存中常驻，以供后面的程序使用。</p>
+<p>其实闭包中外部函数的返回值定义成内部函数的地址，是为了防止内部函数被垃圾回收机制回收。</p>
+<h2 id="三、装饰器"><a href="#三、装饰器" class="headerlink" title="三、装饰器"></a>三、装饰器</h2><h3 id="装饰器概述（Decorators）"><a href="#装饰器概述（Decorators）" class="headerlink" title="装饰器概述（Decorators）"></a>装饰器概述（Decorators）</h3><ul>
+<li>装饰器：本质上就是函数，功能是为其他函数添加附加功能</li>
+<li>原则：<ul>
+<li>不修改被修饰函数的源代码</li>
+<li>不修改被修饰函数的调用方法</li>
+</ul>
+</li>
+<li>装饰器 = 高阶函数 + 函数嵌套 + 闭包</li>
+</ul>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://example.com/2020/12/12/python_know_itertor/" title="理解Python迭代器&amp;生成器&amp;装饰器" target="_blank" rel="external">http://example.com/2020/12/12/python_know_itertor/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/Githubdcheng" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/Githubdcheng.github.io/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/Githubdcheng" target="_blank"><span class="text-dark">挺难想的喃</span><small class="ml-1x">Web Developer &amp; Designer</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
   
     
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
     
-      
-      
-      <section class="panel panel-default b-no">
-        <div class="panel-heading" role="tab">
-          <h3 class="panel-title">
-            <a data-toggle="collapse" href="#collapse2020" aria-expanded="true">
-              <i class="icon icon-calendar-plus text-active"></i><i class="icon icon-calendar-minus text"></i>
-              2020
-            </a>
-            <!-- <a href="/Githubdcheng.github.io/archives/2020" class="archive-year">2020</a> -->
-          </h3>
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/Githubdcheng.github.io/2020/12/12/know_restful_api/" title="RESTful API 设计指南"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/Githubdcheng.github.io/2020/12/12/know_restful/" title="理解RESTful架构"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/Githubdcheng.github.io/images/donate/alipayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/Githubdcheng.github.io/images/donate/wechatpayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
+            </ul>
+          </div>
         </div>
-        <div id="collapse2020" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading2020">
-        <div class="panel-body">
-          <div class="collection">
-    
-    
-<a href="/Githubdcheng.github.io/2020/10/23/github-and-hexo-build-blog/" class="collection-item" target="_blank" itemprop="url">
-  <time datetime="2020-10-23T03:02:28.000Z" itemprop="datePublished">2020-10-23</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> GitHub+Hexo 搭建个人博客
-</a>
+      </div>
+    </div>
+  </div>
+</div>
 
 
-  
-    
-    
-    
-<a href="/Githubdcheng.github.io/2020/10/23/hello-world/" class="collection-item" target="_blank" itemprop="url">
-  <time datetime="2020-10-23T02:32:56.112Z" itemprop="datePublished">2020-10-23</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> Hello World
-</a>
 
-
-  
-  
-    </div></div></div></section>
-  
-
-	    </div>
-  	</article>
-  	 	
 </main>
 
   <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
@@ -447,6 +615,37 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 
 
 
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
 
 
 
