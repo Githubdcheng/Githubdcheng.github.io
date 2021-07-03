@@ -17,16 +17,25 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>Tag: nginx | Hexo</title>
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/tags/nginx/index.html">
+  <title>Redis哨兵、复制、集群的设计原理，以及区别 | Hexo</title>
+  <meta name="description" content="摘要:基于内存的Redis应该是目前各种web开发业务中最为常用的key-value数据库,我们经常在业务中用其储存用户登录态（session）热点数据, 简单的消息列表、订阅发布（PUB&#x2F;SUB）系统等。作为一个基础服务的提供方，那么你的服务是否具有高可用？ 简介Redis服务器的高可用Redis服务器的高可用  哨兵（Sentinel） 复制（Replication）  哨兵（Sentinel">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis哨兵、复制、集群的设计原理，以及区别">
+<meta property="og:url" content="http://example.com/2021/07/03/redis_high_availability/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="摘要:基于内存的Redis应该是目前各种web开发业务中最为常用的key-value数据库,我们经常在业务中用其储存用户登录态（session）热点数据, 简单的消息列表、订阅发布（PUB&#x2F;SUB）系统等。作为一个基础服务的提供方，那么你的服务是否具有高可用？ 简介Redis服务器的高可用Redis服务器的高可用  哨兵（Sentinel） 复制（Replication）  哨兵（Sentinel">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/source/images/redis/redis_sentinel.jpg">
+<meta property="og:image" content="http://example.com/source/images/redis/redis_replication_source.jpg">
+<meta property="og:image" content="http://example.com/source/images/redis/redis_copy_add.jpg">
+<meta property="article:published_time" content="2021-07-03T01:06:37.000Z">
+<meta property="article:modified_time" content="2021-07-03T02:09:24.171Z">
 <meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Redis">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/source/images/redis/redis_sentinel.jpg">
   <!-- Canonical links -->
-  <link rel="canonical" href="http://example.com/tags/nginx/index.html">
+  <link rel="canonical" href="http://example.com/2021/07/03/redis_high_availability/index.html">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -333,74 +342,238 @@
 </aside>
 
   
-  <main class="main" role="main">
-  <article class="content article article-tags post-type-list" itemscope="">
-    <header class="article-header">
-      <h1 itemprop="name" class="hidden-xs">Tag: nginx</h1>
-      <p class="text-muted hidden-xs">Total 1 articles</p>
-      <nav role="navigation" id="nav-main" class="okayNav">
-        <ul>
-          <li><a href="/Githubdcheng.github.io/tags">All</a></li>
-          
-          <li><a href="/Githubdcheng.github.io/tags/Github/">Github</a></li>
-          
-          <li><a href="/Githubdcheng.github.io/tags/Hexo/">Hexo</a></li>
-          
-          <li><a href="/Githubdcheng.github.io/tags/restful/">restful</a></li>
-          
-          <li><a href="/Githubdcheng.github.io/tags/Restful/">Restful</a></li>
-          
-          <li><a href="/Githubdcheng.github.io/tags/https/">https</a></li>
-          
-          <li><a href="/Githubdcheng.github.io/tags/nginx/">nginx</a></li>
-          
-          <li><a href="/Githubdcheng.github.io/tags/ssl/">ssl</a></li>
-          
-          <li><a href="/Githubdcheng.github.io/tags/markdown/">markdown</a></li>
-          
-          <li><a href="/Githubdcheng.github.io/tags/python/">python</a></li>
-          
-          <li><a href="/Githubdcheng.github.io/tags/Redis/">Redis</a></li>
-          
-        </ul>
-      </nav>
-    </header>
-    <!-- /header -->
-    <div class="article-body">
-      <div class="row">
-        
-<div class="col-md-6">
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-redis_high_availability" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
     
-<article class="panel panel-default hover-shadow hover-grow" itemscope itemtype="http://schema.org/BlogPosting">
-  <div class="panel-body">
-     <div class="article-meta">
-       <time datetime="2020-11-03T13:39:39.000Z" itemprop="datePublished">2020-11-03</time>
-     </div>
-     <h3 class="article-title" itemprop="name">
-       <a class="article-link" href="/Githubdcheng.github.io/2020/11/03/lets-encrypt-make-ssl/">Let&#39;s Encrypt 安装配置教程，免费的 SSL 证书</a>
-     </h3>
-   </div>
-   
-   <div class="panel-footer">
-     
-      <a href="/Githubdcheng.github.io/tags/https/" class="label label-default mb">https</a>
-     
-      <a href="/Githubdcheng.github.io/tags/nginx/" class="label label-default mb">nginx</a>
-     
-      <a href="/Githubdcheng.github.io/tags/ssl/" class="label label-default mb">ssl</a>
-     
-     
-   </div>
-   
-</article>
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Redis哨兵、复制、集群的设计原理，以及区别
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/Githubdcheng.github.io/2021/07/03/redis_high_availability/" class="article-date">
+	  <time datetime="2021-07-03T01:06:37.000Z" itemprop="datePublished">2021-07-03</time>
+	</a>
+</span>
+        
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/Githubdcheng.github.io/tags/Redis/" rel="tag">Redis</a>
+  </span>
 
 
-</div>
+        
 
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/Githubdcheng.github.io/2021/07/03/redis_high_availability/#comments" class="article-comment-link">Comments</a></span>
+        
       </div>
     </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要:"></a>摘要:</h1><p>基于内存的Redis应该是目前各种web开发业务中最为常用的key-value数据库,我们经常在业务中用其储存用户登录态（session）热点数据, 简单的消息列表、订阅发布（PUB/SUB）系统等。<br>作为一个基础服务的提供方，那么你的服务是否具有高可用？</p>
+<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><h2 id="Redis服务器的高可用"><a href="#Redis服务器的高可用" class="headerlink" title="Redis服务器的高可用"></a>Redis服务器的高可用</h2><p>Redis服务器的高可用</p>
+<ul>
+<li>哨兵（Sentinel）</li>
+<li>复制（Replication）</li>
+</ul>
+<h2 id="哨兵（Sentinel）"><a href="#哨兵（Sentinel）" class="headerlink" title="哨兵（Sentinel）"></a>哨兵（Sentinel）</h2><p>哨兵是Redis集群架构中非常重要的一个组件，哨兵的出现主要是解决了主从复制出现故障时需要人为干预的问题。</p>
+<h3 id="哨兵主要功能"><a href="#哨兵主要功能" class="headerlink" title="哨兵主要功能"></a>哨兵主要功能</h3><ul>
+<li><ol>
+<li>集群监控: 负责Redis master和slave进程是否正常工作</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>消息通知：如果某个Redis实例有故障，那么哨兵负责发送消息作为报警通知给管理员</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>故障转移：如果master node挂掉了，会自动转移到slave node上</li>
+</ol>
+</li>
+<li><ol start="4">
+<li>配置中心：如果故障转移发生了，通知client客户端新的master地址</li>
+</ol>
+</li>
+</ul>
+<h3 id="哨兵的高可用"><a href="#哨兵的高可用" class="headerlink" title="哨兵的高可用"></a>哨兵的高可用</h3><p>原理：当主节点出现故障时，由Redis Sentinel自动完成故障发现和转移，并通知应用方，实现高可用性<br><img src="/source/images/redis/redis_sentinel.jpg" alt="Redis Sentinel机制"></p>
+<ul>
+<li><ol>
+<li>哨兵机制建立了多个哨兵节点（进程），共同监控数据节点的运行状况。</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>同时哨兵节点之间也互相通信，交换对主从节点的监控状态。</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>每隔1秒每个哨兵会向整个集群：master node + slave node + 其他 sentinel（哨兵）进程，发送一次ping命令做一次心跳检测。</li>
+</ol>
+</li>
+</ul>
+<p>这个是哨兵用来判断node(节点)是否正常的重要依据，涉及两个概念：</p>
+<ul>
+<li><em>1. 主观下线</em>: 一个哨兵节点判定主节点down掉是主观下线</li>
+<li><em>2. 客观下线</em>: 只有半数哨兵节点都主观判定主节点down掉，此时多个哨兵节点交换主观判定结果，才会判定主节点客观下线</li>
+<li><em>3. 原理</em>:基本上哪个哨兵最先判定这个主节点客观下线，就会在各个哨兵节点中发起投票机制Raft算法（选举算法）,最终被投为领导者的哨兵节点完成从自动化切换的过程</li>
+</ul>
+<h2 id="复制（Replication）"><a href="#复制（Replication）" class="headerlink" title="复制（Replication）"></a>复制（Replication）</h2><p>Redis为了解决单点数据库问题，会把数据复制多个副本部署到其他节点上，通过复制，实现Redis的高可用性，实现对数据的冗余备份，保证数据和服务的高度可靠性</p>
+<h3 id="1-数据复制原理"><a href="#1-数据复制原理" class="headerlink" title="1.数据复制原理"></a>1.数据复制原理</h3><p><img src="/source/images/redis/redis_replication_source.jpg" alt="Redis Sentinel机制"></p>
+<ul>
+<li><p>①从数据库向主数据库发送sync(数据同步)命令。</p>
+</li>
+<li><p>②主数据库接收同步命令后，会保存快照，创建一个RDB文件。</p>
+</li>
+<li><p>③当主数据库执行完保持快照后，会向从数据库发送RDB文件，而从数据库会接收并载入该文件。</p>
+</li>
+<li><p>④主数据库将缓冲区的所有写命令发给从服务器执行。</p>
+</li>
+<li><p>⑤以上处理完之后，之后主数据库每执行一个写命令，都会将被执行的写命令发送给从数据库。</p>
+</li>
+</ul>
+<p>注意：在Redis2.8之后，主从断开重连后会根据断开之前最新的命令偏移量进行增量复制。<br><img src="/source/images/redis/redis_copy_add.jpg" alt="Redis 增量复制"></p>
+<h1 id="Redis-主从复制、哨兵和集群这三个有什么区别环境搭建"><a href="#Redis-主从复制、哨兵和集群这三个有什么区别环境搭建" class="headerlink" title="Redis 主从复制、哨兵和集群这三个有什么区别环境搭建"></a>Redis 主从复制、哨兵和集群这三个有什么区别环境搭建</h1><p>主从复制是为了数据备份，哨兵是为了高可用，Redis主服务器挂了哨兵可以切换，集群则是因为单实例能力有限，搞多个分散压力，简短总结如下：</p>
+<ul>
+<li>主从模式：备份数据、负载均衡，一个Master可以有多个Slaves。</li>
+<li>sentinel发现master挂了后，就会从slave中重新选举一个master。</li>
+<li>cluster是为了解决单机Redis容量有限的问题，将数据按一定的规则分配到多台机器。</li>
+<li>sentinel着眼于高可用，Cluster提高并发量。</li>
+</ul>
+<p><em>1.主从模式</em>：读写分离，备份，一个Master可以有多个Slaves。</p>
+<p><em>2.哨兵sentinel</em>：监控，自动转移，哨兵发现主服务器挂了后，就会从slave中重新选举一个主服务器。</p>
+<p><em>3.集群</em>：为了解决单机Redis容量有限的问题，将数据按一定的规则分配到多台机器，内存/QPS不受限于单机，可受益于分布式集群高扩展性。</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://example.com/2021/07/03/redis_high_availability/" title="Redis哨兵、复制、集群的设计原理，以及区别" target="_blank" rel="external">http://example.com/2021/07/03/redis_high_availability/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/Githubdcheng" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/Githubdcheng.github.io/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/Githubdcheng" target="_blank"><span class="text-dark">挺难想的喃</span><small class="ml-1x">Web Developer &amp; Designer</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
   </article>
-   
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="/Githubdcheng.github.io/2020/12/15/python_singleton/" title="Python单例模式(Singleton)的N种实现"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/Githubdcheng.github.io/images/donate/alipayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/Githubdcheng.github.io/images/donate/wechatpayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 </main>
 
   <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
@@ -461,6 +634,37 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 
 
 
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
 
 
 

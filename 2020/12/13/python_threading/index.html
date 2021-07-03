@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>python 多线程&amp;多进程&amp;协程 | Hexo</title>
+  <meta name="description" content="摘要现在多进程多线程已经是老生常谈了，协程也在最近几年流行起来。python中有协程库gevent，py web框架tornado中也用了gevent封装好的协程。 简介定义 进程  进程是具有一定独立功能的程序关于某个数据集合上的一次运行活动,进程是系统进行资源分配和调度的一个独立单位。每个进程都有自己的独立内存空间，不同进程通过进程间通信来通信。由于进程比较重量，占据独立的内存，所以上下文进程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python 多线程&amp;多进程&amp;协程">
+<meta property="og:url" content="http://example.com/2020/12/13/python_threading/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="摘要现在多进程多线程已经是老生常谈了，协程也在最近几年流行起来。python中有协程库gevent，py web框架tornado中也用了gevent封装好的协程。 简介定义 进程  进程是具有一定独立功能的程序关于某个数据集合上的一次运行活动,进程是系统进行资源分配和调度的一个独立单位。每个进程都有自己的独立内存空间，不同进程通过进程间通信来通信。由于进程比较重量，占据独立的内存，所以上下文进程">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-12-13T08:24:02.000Z">
+<meta property="article:modified_time" content="2020-12-13T09:46:08.317Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="python">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://example.com/2020/12/13/python_threading/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/Githubdcheng.github.io/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/Githubdcheng" target="_blank">
+          <img class="img-circle img-rotate" src="/Githubdcheng.github.io/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">挺难想的喃</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer &amp; Designer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> ChengDu, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/Githubdcheng.github.io/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/Githubdcheng.github.io/%E5%BD%92%E6%A1%A3">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/Githubdcheng.github.io/%E5%88%86%E7%B1%BB">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/Githubdcheng.github.io/%E6%A0%87%E7%AD%BE">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/Githubdcheng.github.io/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/Githubdcheng.github.io/%E4%B9%A6%E5%8D%95">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">Books</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/Githubdcheng.github.io/%E5%8F%8B%E9%93%BE">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">Links</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/Githubdcheng.github.io/%E5%85%B3%E4%BA%8E">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/Githubdcheng" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/Githubdcheng.github.io/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/Githubdcheng.github.io/tags/Github/" rel="tag">Github</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/Githubdcheng.github.io/tags/Hexo/" rel="tag">Hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/Githubdcheng.github.io/tags/Redis/" rel="tag">Redis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/Githubdcheng.github.io/tags/Restful/" rel="tag">Restful</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/Githubdcheng.github.io/tags/https/" rel="tag">https</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/Githubdcheng.github.io/tags/markdown/" rel="tag">markdown</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/Githubdcheng.github.io/tags/nginx/" rel="tag">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/Githubdcheng.github.io/tags/python/" rel="tag">python</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/Githubdcheng.github.io/tags/restful/" rel="tag">restful</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/Githubdcheng.github.io/tags/ssl/" rel="tag">ssl</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/Githubdcheng.github.io/tags/Github/" style="font-size: 13px;">Github</a> <a href="/Githubdcheng.github.io/tags/Hexo/" style="font-size: 13px;">Hexo</a> <a href="/Githubdcheng.github.io/tags/Redis/" style="font-size: 13px;">Redis</a> <a href="/Githubdcheng.github.io/tags/Restful/" style="font-size: 13.5px;">Restful</a> <a href="/Githubdcheng.github.io/tags/https/" style="font-size: 13px;">https</a> <a href="/Githubdcheng.github.io/tags/markdown/" style="font-size: 13px;">markdown</a> <a href="/Githubdcheng.github.io/tags/nginx/" style="font-size: 13px;">nginx</a> <a href="/Githubdcheng.github.io/tags/python/" style="font-size: 14px;">python</a> <a href="/Githubdcheng.github.io/tags/restful/" style="font-size: 13px;">restful</a> <a href="/Githubdcheng.github.io/tags/ssl/" style="font-size: 13px;">ssl</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/Githubdcheng.github.io/archives/2021/07/">July 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/Githubdcheng.github.io/archives/2020/12/">December 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/Githubdcheng.github.io/archives/2020/11/">November 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/Githubdcheng.github.io/archives/2020/10/">October 2020</a><span class="archive-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/Githubdcheng.github.io/2021/07/03/redis_high_availability/" class="title">Redis哨兵、复制、集群的设计原理，以及区别</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-07-03T01:06:37.000Z" itemprop="datePublished">2021-07-03</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/Githubdcheng.github.io/2020/12/15/python_singleton/" class="title">Python单例模式(Singleton)的N种实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-12-15T12:52:11.000Z" itemprop="datePublished">2020-12-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/Githubdcheng.github.io/2020/12/13/python_threading/" class="title">python 多线程&amp;多进程&amp;协程</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-12-13T08:24:02.000Z" itemprop="datePublished">2020-12-13</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/Githubdcheng.github.io/2020/12/12/know_restful_api/" class="title">RESTful API 设计指南</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-12-12T03:42:42.000Z" itemprop="datePublished">2020-12-12</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/Githubdcheng.github.io/2020/12/12/python_know_itertor/" class="title">理解Python迭代器&amp;生成器&amp;装饰器</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-12-12T03:42:42.000Z" itemprop="datePublished">2020-12-12</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-python_threading" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      python 多线程&amp;多进程&amp;协程
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/Githubdcheng.github.io/2020/12/13/python_threading/" class="article-date">
+	  <time datetime="2020-12-13T08:24:02.000Z" itemprop="datePublished">2020-12-13</time>
+	</a>
+</span>
+        
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/Githubdcheng.github.io/tags/python/" rel="tag">python</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/Githubdcheng.github.io/2020/12/13/python_threading/#comments" class="article-comment-link">Comments</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><p>现在多进程多线程已经是老生常谈了，协程也在最近几年流行起来。python中有协程库gevent，py web框架tornado中也用了gevent封装好的协程。</p>
+<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><ul>
+<li>进程</li>
+</ul>
+<p>进程是具有一定独立功能的程序关于某个数据集合上的一次运行活动,<em>进程是系统进行资源分配和调度的一个独立单位。</em>每个进程都有自己的独立内存空间，不同进程通过进程间通信来通信。由于进程比较重量，占据独立的内存，所以上下文进程间的切换开销（栈、寄存器、虚拟内存、文件句柄等）比较大，但相对比较稳定安全。</p>
+<ul>
+<li>线程</li>
+</ul>
+<p>*线程是进程的一个实体,是CPU调度和分派的基本单位,它是比进程更小的能独立运行的基本单位.*线程自己基本上不拥有系统资源,只拥有一点在运行中必不可少的资源(如程序计数器,一组寄存器和栈),但是它可与同属一个进程的其他的线程共享进程所拥有的全部资源。线程间通信主要通过共享内存，上下文切换很快，资源开销较少，但相比进程不够稳定容易丢失数据。</p>
+<ul>
+<li>协程</li>
+</ul>
+<p><em>协程是一种用户态的轻量级线程，协程的调度完全由用户控制。</em>协程拥有自己的寄存器上下文和栈。协程调度切换时，将寄存器上下文和栈保存到其他地方，在切回来的时候，恢复先前保存的寄存器上下文和栈，直接操作栈则基本没有内核切换的开销，可以不加锁的访问全局变量，所以上下文的切换非常快。</p>
+<h2 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h2><h3 id="1、进程多与线程比较"><a href="#1、进程多与线程比较" class="headerlink" title="1、进程多与线程比较"></a>1、进程多与线程比较</h3><p>线程是指进程内的一个执行单元,也是进程内的可调度实体。线程与进程的区别:</p>
+<ul>
+<li><ol>
+<li>地址空间:线程是进程内的一个执行单元，进程内至少有一个线程，它们共享进程的地址空间，而进程有自己独立的地址空间</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>资源拥有:进程是资源分配和拥有的单位,同一个进程内的线程共享进程的资源</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>线程是处理器调度的基本单位,但进程不是</li>
+</ol>
+</li>
+<li><ol start="4">
+<li>二者均可并发执行</li>
+</ol>
+</li>
+<li><ol start="5">
+<li>每个独立的线程有一个程序运行的入口、顺序执行序列和程序的出口，但是线程不能够独立执行，必须依存在应用程序中，由应用程序提供多个线程执行控制</li>
+</ol>
+</li>
+</ul>
+<h3 id="2、协程多与线程进行比较"><a href="#2、协程多与线程进行比较" class="headerlink" title="2、协程多与线程进行比较"></a>2、协程多与线程进行比较</h3><ul>
+<li><ol>
+<li>一个线程可以多个协程，一个进程也可以单独拥有多个协程，这样python中则能使用多核CPU。</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>线程进程都是同步机制，而协程则是异步</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>协程能保留上一次调用时的状态，每次过程重入时，就相当于进入上一次调用的状态</li>
+</ol>
+</li>
+</ul>
+<h2 id="进程和线程、协程在python中的使用"><a href="#进程和线程、协程在python中的使用" class="headerlink" title="进程和线程、协程在python中的使用"></a>进程和线程、协程在python中的使用</h2><h3 id="多进程"><a href="#多进程" class="headerlink" title="多进程"></a>多进程</h3><p>多进程一般使用multiprocessing库，来利用多核CPU，主要是用在CPU密集型的程序上，当然生产者消费者这种也可以使用。多进程的优势就是一个子进程崩溃并不会影响其他子进程和主进程的运行，但缺点就是不能一次性启动太多进程，会严重影响系统的资源调度，特别是CPU使用率和负载。</p>
+<p><em>特点</em></p>
+<ul>
+<li>每一个进程都是由父进程启动的</li>
+<li>子进程被父进程启动后就是独立的（父进程copy了一份给子进程）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">from multiprocessing import Process</span><br><span class="line"></span><br><span class="line">def foo(i):</span><br><span class="line">	print(&#39;say hi&#39;, i)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ &#x3D;&#x3D; &#39;__main__&#39;:</span><br><span class="line">	for i range(10):</span><br><span class="line">		p &#x3D; Process(target&#x3D;foo, args&#x3D;(i, ))</span><br><span class="line">		p.start()</span><br></pre></td></tr></table></figure>
+
+<p><em>进程数据共享</em></p>
+<ul>
+<li>进程各自持有一份数据，默认无法共享数据</li>
+<li>当创建进程时（非使用时），共享数据会被拿到子进程中，当进程中执行完毕后，再赋值给原值。</li>
+</ul>
+<p>通过队列共享数据:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">from multiprocessing import Process, Queue</span><br><span class="line"> </span><br><span class="line">def run(qq):</span><br><span class="line">    qq.put(&quot;123&quot;)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">if __name__&#x3D;&#x3D;&#39;__main__&#39;:</span><br><span class="line">    q&#x3D;Queue()    #生成一个队列，通过队列进行传递数据</span><br><span class="line">    p&#x3D;Process(target&#x3D;run,args&#x3D;(q,))</span><br><span class="line">    p.start()</span><br><span class="line">    print(q.get())</span><br><span class="line">    p.join()</span><br></pre></td></tr></table></figure>
+<p>通过字典共享数据：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">from multiprocessing import Process, Manager</span><br><span class="line">import os</span><br><span class="line">def f(d, l):</span><br><span class="line">    d[os.getpid()] &#x3D;os.getpid()</span><br><span class="line">    l.append(os.getpid())</span><br><span class="line">    print(l)</span><br><span class="line"> </span><br><span class="line">if __name__ &#x3D;&#x3D; &#39;__main__&#39;:</span><br><span class="line">    with Manager() as manager:  #Manager()&#x3D;manager</span><br><span class="line">        d &#x3D; manager.dict() #&#123;&#125; #生成一个字典，可在多个进程间共享和传递</span><br><span class="line"> </span><br><span class="line">        l &#x3D; manager.list(range(5))#生成一个列表，可在多个进程间共享和传递</span><br><span class="line">        p_list &#x3D; []</span><br><span class="line">        for i in range(10):</span><br><span class="line">            p &#x3D; Process(target&#x3D;f, args&#x3D;(d, l))</span><br><span class="line">            p.start()</span><br><span class="line">            p_list.append(p)</span><br><span class="line">        for res in p_list: #等待结果</span><br><span class="line">            res.join()</span><br><span class="line"> </span><br><span class="line">        print(d)</span><br><span class="line">        print(l)</span><br></pre></td></tr></table></figure>
+
+<p><em>进程锁</em></p>
+<p>在多个进程共享一个屏幕时可能会导致输出的数据变乱</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">from multiprocessing import Process, Lock</span><br><span class="line"> </span><br><span class="line">def f(l, i):</span><br><span class="line">    l.acquire()     #设置进程锁</span><br><span class="line">    try:</span><br><span class="line">        print(&#39;hello world&#39;, i)</span><br><span class="line">    finally:</span><br><span class="line">        l.release()     #取消进程锁</span><br><span class="line"> </span><br><span class="line">if __name__ &#x3D;&#x3D; &#39;__main__&#39;:</span><br><span class="line">    l &#x3D; Lock()  #实例化锁</span><br><span class="line">    for num in range(10):</span><br><span class="line">        Process(target&#x3D;f, args&#x3D;(l, num)).start()</span><br></pre></td></tr></table></figure>
+
+<p><em>进程池</em></p>
+<p>进程池内部维护一个进程序列，当使用时，则去进程池中获取一个进程，如果进程池序列中没有可供使用的进进程，那么程序就会等待，直到进程池中有可用进程为止。</p>
+<p>进程池中有两个方法：</p>
+<ul>
+<li>apply：串行</li>
+<li>apply_async：并行<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">from  multiprocessing import Pool</span><br><span class="line">import time</span><br><span class="line">import os</span><br><span class="line"></span><br><span class="line">def Foo(i):</span><br><span class="line">    time.sleep(2)</span><br><span class="line">    print(&quot;in process&quot;,os.getpid())</span><br><span class="line">    return i + 100</span><br><span class="line"></span><br><span class="line">def Bar(arg):</span><br><span class="line">    print(&#39;--&gt;exec done:&#39;, arg,os.getpid())</span><br><span class="line"></span><br><span class="line">if __name__ &#x3D;&#x3D; &#39;__main__&#39;:</span><br><span class="line">    #freeze_support()</span><br><span class="line">    pool &#x3D; Pool(processes&#x3D;3) #允许进程池同时放入5个进程</span><br><span class="line">    print(&quot;主进程&quot;,os.getpid())</span><br><span class="line">    for i in range(10):</span><br><span class="line">        pool.apply_async(func&#x3D;Foo, args&#x3D;(i,), callback&#x3D;Bar) #callback&#x3D;回调</span><br><span class="line">        #pool.apply(func&#x3D;Foo, args&#x3D;(i,)) #串行</span><br><span class="line">        #pool.apply_async(func&#x3D;Foo, args&#x3D;(i,)) #并行</span><br><span class="line">    print(&#39;end&#39;)</span><br><span class="line">    pool.close()</span><br><span class="line">    pool.join() #进程池中进程执行完毕后再关闭，如果注释，那么程序直接关闭。.join()</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h3><p>多线程一般是使用threading库，完成一些IO密集型并发操作。多线程的优势是切换快，资源消耗低，但一个线程挂掉则会影响到所有线程，所以不够稳定。</p>
+<p><em>互斥锁（Lock、RLock）</em><br>由于线程之间是进行随机调度，并且每个线程可能只执行n条执行之后，当多个线程同时修改同一条数据时可能会出现脏数据，所以，出现了线程锁 - 同一时刻允许一个线程执行操作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">import threading</span><br><span class="line">import time</span><br><span class="line"> </span><br><span class="line">gl_num &#x3D; 0</span><br><span class="line"> </span><br><span class="line">lock &#x3D; threading.RLock()    # 定义线程锁</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">def Func():</span><br><span class="line">    lock.acquire()      # 开始锁</span><br><span class="line">    global gl_num</span><br><span class="line">    gl_num +&#x3D; 1</span><br><span class="line">    time.sleep(1)</span><br><span class="line">    print(gl_num)</span><br><span class="line">    lock.release()      # 结束锁</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">for i in range(10):</span><br><span class="line">    t &#x3D; threading.Thread(target&#x3D;Func)</span><br><span class="line">    t.start()</span><br><span class="line">     </span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">没有锁的时候打印:</span><br><span class="line">&gt;&gt; 10,10,10,10,10,10,10,10,10,10</span><br><span class="line"> </span><br><span class="line">有锁的时候打印:</span><br><span class="line">&gt;&gt; 1,2,3,4,5,6,7,8,9,10</span><br><span class="line">&quot;&quot;&quot;</span><br></pre></td></tr></table></figure>
+
+<p><em>信号量（Semaphore）</em><br>互斥锁同时只允许一个线程更改数据，而信号量锁是同时允许一定数量的线程更改数据 ，多个线程同时执行完毕。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">import threading, time</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">def run(n):</span><br><span class="line">    semaphore.acquire()     # 信号量锁开始</span><br><span class="line">    time.sleep(1)</span><br><span class="line">    print(&quot;当前运行线程为: %s&quot; % n)</span><br><span class="line">    semaphore.release()     # 结束</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">if __name__ &#x3D;&#x3D; &#39;__main__&#39;:</span><br><span class="line"> </span><br><span class="line">    num &#x3D; 0</span><br><span class="line">    semaphore &#x3D; threading.BoundedSemaphore(5)    # 最多允许5个线程同时运行(5个5个一起出来)</span><br><span class="line">    for i in range(20):</span><br><span class="line">        t &#x3D; threading.Thread(target&#x3D;run, args&#x3D;(i,))</span><br></pre></td></tr></table></figure>
+
+<p><em>事件（event）</em><br>python线程的事件用于主线程控制其他线程的执行，事件主要提供了两个方法：event.set()设定，event.clear()没设定。</p>
+<ul>
+<li>event.wait()：等待设定</li>
+<li>event.is_set()：判断是否设定<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">import time,threading</span><br><span class="line"> </span><br><span class="line">event &#x3D; threading.Event()</span><br><span class="line"> </span><br><span class="line">def lighter():</span><br><span class="line">	count&#x3D;0</span><br><span class="line">	event.set()     #设定</span><br><span class="line">	while True:</span><br><span class="line"> 	if count&lt;10 and count&gt;&#x3D;5:</span><br><span class="line">		event.clear()   #清除设定</span><br><span class="line">		print(&quot;\033[41;1m红灯\033[0m&quot;)</span><br><span class="line">		time.sleep(1)</span><br><span class="line">	elif count&gt;10:</span><br><span class="line">		count&#x3D;0</span><br><span class="line">		event.set()</span><br><span class="line">	else:</span><br><span class="line">		print(&quot;\033[42;1m绿灯\033[0m&quot;)</span><br><span class="line">		time.sleep(1)</span><br><span class="line">		count+&#x3D;1</span><br><span class="line"></span><br><span class="line">def car(name):</span><br><span class="line">	while True:</span><br><span class="line">		if event.is_set():  #判断是否设定</span><br><span class="line">			print(&quot;\033[32;1m[%s] run...\033[0m&quot;%name)</span><br><span class="line">			time.sleep(1)</span><br><span class="line">		else:</span><br><span class="line">			print(&#39;\033[31;1m [%s] stop...&#39;%name)</span><br><span class="line">			event.wait()    #等待设定</span><br><span class="line">       		print(&#39;\033[33;1m [%s]走咯&#39;%name)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">light&#x3D;threading.Thread(target&#x3D;lighter,)</span><br><span class="line"></span><br><span class="line">light.start()</span><br><span class="line"></span><br><span class="line">car1&#x3D;threading.Thread(target&#x3D;car,args&#x3D;(&#39;Tesla&#39;,))</span><br><span class="line"></span><br><span class="line">car1.start()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="协程（微线程）"><a href="#协程（微线程）" class="headerlink" title="协程（微线程）"></a>协程（微线程）</h3><p>通过单线程实现并发（协程只有一个线程，so不用锁）</p>
+<p><em>协程的好处：</em></p>
+<ul>
+<li>无需线程上下文切换的开销</li>
+<li>无需原子操作锁定及同步的开销</li>
+<li>“原子操作(atomic operation)是不需要synchronized”，所谓原子操作是指不会被线程调度机制打断的操作；这种操作一旦开始，就一直运行到结束，中间不会有任何 context switch （切换到另一个线程）。原子操作可以是一个步骤，也可以是多个操作步骤，但是其顺序是不可以被打乱，或者切割掉只执行部分。视作整体是原子性的核心。</li>
+<li>方便切换控制流，简化编程模型</li>
+<li>高并发+高扩展性+低成本：一个CPU支持上万的协程都不是问题。所以很适合用于高并发处理。</li>
+</ul>
+<p><em>缺点：</em></p>
+<p>无法利用多核资源：协程的本质是个单线程,它不能同时将 单个CPU 的多个核用上,协程需要和进程配合才能运行在多CPU上.当然我们日常所编写的绝大部分应用都没有这个必要，除非是cpu密集型应用。<br>进行阻塞（Blocking）操作（如IO时）会阻塞掉整个程序</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><h2 id="1、多进程，多线程，协程"><a href="#1、多进程，多线程，协程" class="headerlink" title="1、多进程，多线程，协程"></a>1、多进程，多线程，协程</h2><p><em>操作系统方面的多进程，多线程，协程：</em></p>
+<p>操作系统可以开多个进程，一个进程可以有多个线程，多个线程可以被分配到不同的核心上跑，但实际上每个核心上只有一个线程，只是这个线程在不停的进行上下文的切换，给我们一种并发的感觉。</p>
+<p>协程：单线程的调度机制。它的作用是让原来要使用异步+回调方式（调用线程）写的非人类代码,可以用看似同步的方式写出来。协程是先出现的，但它有明显的时间差，没有并发的感觉，所以出现了线程。</p>
+<p><em>python的多进程，多线程，协程：</em></p>
+<p>但python的多线程只能在一个核心上跑（创始人没想到会有多核出现），就是单核的上下文切换，所以很鸡肋。于是协程在python大展拳脚，好多框架都是使用协程来解决多任务的，而不是线程（scrapy，tornado）。</p>
+<p><em>python中多进程，多线程，协程的使用：</em></p>
+<p>IO密集型：多线程/协程（可以用异步），cpu占用率低，单个cpu核心就够了</p>
+<p>CPU密集型：多进程，多给它几个核心提升性能</p>
+<h2 id="2、python多线程不用join，进程需要（否则子进程会在进程结束时强制被关闭）"><a href="#2、python多线程不用join，进程需要（否则子进程会在进程结束时强制被关闭）" class="headerlink" title="2、python多线程不用join，进程需要（否则子进程会在进程结束时强制被关闭）"></a>2、python多线程不用join，进程需要（否则子进程会在进程结束时强制被关闭）</h2><p>1 python 默认参数创建线程后，不管主线程是否执行完毕，都会等待子线程执行完毕才一起退出，有无join结果一样</p>
+<p>2 如果创建线程，并且设置了daemon为true，即thread.setDaemon(True), 则主线程执行完毕后自动退出，不会等待子线程的执行结果。而且随着主线程退出，子线程也消亡。</p>
+<p>3 join方法的作用是阻塞，等待子线程结束，join方法有一个参数是timeout，即如果主线程等待timeout，子线程还没有结束，则主线程强制结束子线程。</p>
+<p>4 如果线程daemon属性为False， 则join里的timeout参数无效。主线程会一直等待子线程结束。</p>
+<p>5 如果线程daemon属性为True， 则join里的timeout参数是有效的， 主线程会等待timeout时间后，结束子线程。此处有一个坑，即如果同时有N个子线程join(timeout），那么实际上主线程会等待的超时时间最长为 N ＊ timeout， 因为每个子线程的超时开始时刻是上一个子线程超时结束的时刻。</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://example.com/2020/12/13/python_threading/" title="python 多线程&amp;多进程&amp;协程" target="_blank" rel="external">http://example.com/2020/12/13/python_threading/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/Githubdcheng" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/Githubdcheng.github.io/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/Githubdcheng" target="_blank"><span class="text-dark">挺难想的喃</span><small class="ml-1x">Web Developer &amp; Designer</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/Githubdcheng.github.io/2020/12/15/python_singleton/" title="Python单例模式(Singleton)的N种实现"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/Githubdcheng.github.io/2020/12/12/know_restful_api/" title="RESTful API 设计指南"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/Githubdcheng.github.io/images/donate/alipayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/Githubdcheng.github.io/images/donate/wechatpayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/Githubdcheng" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/Githubdcheng.github.io/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/Githubdcheng.github.io/js/plugin.min.js"></script>
+
+
+<script src="/Githubdcheng.github.io/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/Githubdcheng.github.io/',
+        CONTENT_URL: '/Githubdcheng.github.io/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/Githubdcheng.github.io/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>
